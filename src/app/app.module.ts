@@ -13,16 +13,11 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth"
 import { AngularFireDatabaseModule } from "@angular/fire/compat/database"
 import { AngularFireStorageModule } from "@angular/fire/compat/storage"
 import { environment } from 'src/environments/environment';
-import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule } from '@angular/forms';
-import { AdminComponent } from './pages/admin/admin.component';
-import { MatchingComponent } from './pages/matching/matching.component';
-import { MovieListComponent } from './pages/movie-list/movie-list.component';
-import { LoginComponent } from './pages/login/login.component';
 
 
 @NgModule({
-  declarations: [AppComponent, MovieListComponent, LoginComponent,  MatchingComponent, AdminComponent, RegisterComponent],
+  declarations: [AppComponent],
   imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,

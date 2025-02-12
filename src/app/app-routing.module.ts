@@ -11,30 +11,30 @@ const routes: Routes = [
   },
   {
     path: "login",
-    loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginPageModule),
+    loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginModule),
   },
   {
     path: "register",
-    loadChildren: () => import("./pages/register/register.module").then((m) => m.RegisterPageModule),
+    loadChildren: () => import("./pages/register/register.module").then((m) => m.RegistergModule),
   },
   {
     path: "movie-list",
-    loadChildren: () => import("./pages/movie-list/movie-list.module").then((m) => m.MovieListPageModule),
+    loadChildren: () => import("./pages/movie-list/movie-list.module").then((m) => m.MovieListgModule),
     canActivate: [AuthGuard],
   },
   {
     path: "favorites",
-    loadChildren: () => import("./pages/favorites/favorites.module").then((m) => m.FavoritesPageModule),
+    loadChildren: () => import("./pages/favorites/favorites.module").then((m) => m.FavoritesModule),
     canActivate: [AuthGuard],
   },
   {
     path: "admin",
-    loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminPageModule),
+    loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
     canActivate: [AuthGuard, AdminGuard],
   },
   {
     path: "matching",
-    loadChildren: () => import("./pages/matching/matching.module").then((m) => m.MatchingPageModule),
+    loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
     canActivate: [AuthGuard],
   },
 ];

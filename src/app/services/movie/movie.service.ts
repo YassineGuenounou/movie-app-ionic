@@ -25,12 +25,12 @@ export class MovieService {
     return this.db.object(`favorites/${userId}/${movieId}`).set(true)
   }
 
-  getFavorites(userId: string): Observable<any> {
-    return this.db
-      .list(`favorites/${userId}`)
-      .snapshotChanges()
-      .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...c.payload.val()! }))))
-  }
+  // getFavorites(userId: string): Observable<any> {
+  //   return this.db
+  //     .list(`favorites/${userId}`)
+  //     .snapshotChanges()
+  //     .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...c.payload.val()! }))))
+  // }
 
   addMovie(movie: any): Promise<void> {
     return this.db.list("movies").push(movie)
@@ -68,5 +68,20 @@ export class MovieService {
             .filter((match) => match.matchPercentage >= 75)
         }),
       )
+  }
+
+  getFavorites(userId: string): Observable<any> {
+    return this.db
+      .list(`favorites/${userId}`)
+      .snapshotChanges()
+      .pipe(map((changes) => changes.map((c) => c.payload.key)))
+  }
+
+  getMovieDetails(movieId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${movieId}?api_key=${this.apiKey}`)
+  }
+
+  removeFromFavorites(userId: string, movieId: number): Promise<void> {
+    return this.db.object(`favorites/${userId}/${movieId}`).remove()
   }
 }
