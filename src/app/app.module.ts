@@ -18,10 +18,11 @@ import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './pages/admin/admin.component';
 import { MatchingComponent } from './pages/matching/matching.component';
 import { MovieListComponent } from './pages/movie-list/movie-list.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 @NgModule({
-  declarations: [AppComponent, MovieListComponent, MatchingComponent, AdminComponent, RegisterComponent],
+  declarations: [AppComponent, MovieListComponent, LoginComponent,  MatchingComponent, AdminComponent, RegisterComponent],
   imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
