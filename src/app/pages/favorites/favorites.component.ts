@@ -28,24 +28,12 @@ export class FavoritesComponent implements OnInit {
   }
 
   loadFavorites() {
-    this.movieService.getFavorites(this.currentUserId).subscribe(
-      (favorites) => {
-        // Assuming getFavorites returns an array of movie IDs
-        // We need to fetch the details for each movie
-        this.favoriteMovies = []
-        favorites.forEach((movieId: any) => {
-          this.movieService.getMovieDetails(movieId).subscribe(
-            (movieDetails) => {
-              this.favoriteMovies.push(movieDetails)
-            },
-            (error) => {
-              console.error("Error fetching movie details", error)
-            },
-          )
-        })
+    this.movieService.getFavoriteMovies(this.currentUserId).subscribe(
+      (movies) => {
+        this.favoriteMovies = movies
       },
       (error) => {
-        console.error("Error fetching favorites", error)
+        console.error("Error fetching favorite movies", error)
       },
     )
   }
