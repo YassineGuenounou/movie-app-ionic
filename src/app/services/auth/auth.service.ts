@@ -67,4 +67,8 @@ export class AuthService {
       });
     });
   }
+  getUser(userId: string): Observable<any> {
+    return this.http.get(`${environment.firebaseConfig.databaseURL}/users/${userId}.json`);
+    
+  }
 }
