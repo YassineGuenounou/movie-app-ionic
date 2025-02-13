@@ -7,12 +7,17 @@ export const environment = {
   firebaseConfig: {
     apiKey: "AIzaSyCkgL2suanP_ba5K38HY4ZI_0g8_jMxf6Q",
     authDomain: "movieapp-fbdfb.firebaseapp.com",
+    databaseURL: "https://movieapp-fbdfb-default-rtdb.firebaseio.com",
     projectId: "movieapp-fbdfb",
     storageBucket: "movieapp-fbdfb.firebasestorage.app",
     messagingSenderId: "78304015863",
     appId: "1:78304015863:web:c82efb231a254f85ffeaf2",
     measurementId: "G-E1V61W698Q"
   },
+  tmdbConfig: {
+    apiKey: "d9340b096852df2a80c7afea38206509",
+    apiUrl: "https://api.themoviedb.org/3/movie/popular",
+  }
 };
 
 /*

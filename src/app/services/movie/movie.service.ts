@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+// import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { forkJoin, from, map, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -9,16 +9,15 @@ import { environment } from 'src/environments/environment';
 })
 export class MovieService {
 
-  private readonly apiKey = environment.firebaseConfig.apiKey
-  private readonly apiUrl = environment.firebaseConfig.authDomain
+  private readonly apiKey = environment.tmdbConfig.apiKey
+  private readonly apiUrl = environment.tmdbConfig.apiUrl
 
   constructor(
     private readonly http: HttpClient,
-    private readonly db: AngularFireDatabase,
   ) { }
 
   getPopularMovies(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}`)
+    return this.http.get(`${this.apiUrl}?api_key=${this.apiKey}`)
   }
 
   getMovieDetails(movieId: number): Observable<any> {
@@ -26,18 +25,27 @@ export class MovieService {
   }
 
   addToFavorites(userId: string, movieId: number): Promise<void> {
-    return this.db.object(`favorites/${userId}/${movieId}`).set(true)
+    return new Promise((resolve, reject) => {});
+    // return this.db.object(`favorites/${userId}/${movieId}`).set(true)
   }
 
   removeFromFavorites(userId: string, movieId: number): Promise<void> {
-    return this.db.object(`favorites/${userId}/${movieId}`).remove()
+    return new Promise((resolve, reject) => {});
+
+    // return this.db.object(`favorites/${userId}/${movieId}`).remove()
   }
 
-  getFavorites(userId: string): Observable<number[]> {
-    return this.db
-      .list(`favorites/${userId}`)
-      .snapshotChanges()
-      .pipe(map((changes) => changes.map((c) => Number.parseInt(c.key!, 10))))
+   getFavorites(userId: string): Observable<number[]> {
+    return new Observable((observer) => {
+      observer.next([]);
+      observer.complete();
+    }
+    );
+
+  //   return this.db
+  //     .list(`favorites/${userId}`)
+  //     .snapshotChanges()
+  //     .pipe(map((changes) => changes.map((c) => Number.parseInt(c.key!, 10))))
   }
 
   getFavoriteMovies(userId: string): Observable<any[]> {
@@ -51,18 +59,28 @@ export class MovieService {
 
   addMovie(movie: any): Promise<void> {
     // Ajoute un nouveau film à la base de données Firebase
-    return this.db
-      .list("movies")
-      .push(movie)
-      .then(() => { })
+    this.http.post(`${environment.firebaseConfig.databaseURL}/movies.json`, {
+      movie    
+    }).subscribe((response) => {
+      console.log(response);
+    });
+    return new Promise((resolve, reject) => {
+      // Add your logic here
+      resolve();
+    });
   }
 
   getCustomMovies(): Observable<any[]> {
     // Récupère les films personnalisés ajoutés par les administrateurs
-    return this.db
-      .list("movies")
-      .snapshotChanges()
-      .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...(c.payload.val() as {}) }))))
+    return new Observable((observer) => {
+      observer.next([]);
+      observer.complete();
+    }
+    );
+    // return this.db
+    //   .list("movies")
+    //   .snapshotChanges()
+    //   .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...(c.payload.val() as {}) }))))
   }
 
   searchMovies(query: string): Observable<any> {
@@ -70,14 +88,21 @@ export class MovieService {
   }
 
   getUsers(): Observable<any[]> {
-    return this.db
-      .list("users")
-      .snapshotChanges()
-      .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...(c.payload.val() as {}) }))))
+    return new Observable((observer) => {
+      observer.next([]);
+      observer.complete();
+    }
+    );
+    // return this.db
+    //   .list("users")
+    //   .snapshotChanges()
+    //   .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...(c.payload.val() as {}) }))))
   }
 
   toggleUserStatus(userId: string, isActive: boolean): Promise<void> {
-    return this.db.object(`users/${userId}`).update({ isActive })
+    return new Promise((resolve, reject) => {});
+
+    //return this.db.object(`users/${userId}`).update({ isActive })
   }
 
   getMatchingUsers(userId: string): Observable<any[]> {

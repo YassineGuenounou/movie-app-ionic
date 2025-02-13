@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+// import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
+import { initializeApp } from 'firebase/app';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  app = initializeApp(environment.firebaseConfig);
 
   constructor(
-    private readonly afAuth: AngularFireAuth,
-    private readonly db: AngularFireDatabase,
+     private readonly http: HttpClient
   ) { }
 
   async register(
@@ -20,27 +27,44 @@ export class AuthService {
     surname: string,
     age: number,
     photoUrl: string,
-  ): Promise<void> {
-    const credential = await this.afAuth.createUserWithEmailAndPassword(email, password)
-    await this.db.object(`users/${credential.user!.uid}`).set({
+  ): Promise<any> {
+    const auth = getAuth(this.app);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    // add to DB
+
+    this.http.put(`${environment.firebaseConfig.databaseURL}/users/${user.uid}.json`, {
+      email,
       name,
       surname,
       age,
       photoUrl,
-      isActive: true,
-      isAdmin: false,
-    })
+    }).subscribe((response) => {
+      console.log(response);
+    });
+    
+
+    return user;
   }
+  
 
   login(email: string, password: string): Promise<any> {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
+    const auth = getAuth(this.app);
+    return signInWithEmailAndPassword(auth, email, password);
   }
 
   logout(): Promise<void> {
-    return this.afAuth.signOut()
+    const auth = getAuth(this.app);
+    return auth.signOut();
   }
 
   getCurrentUser(): Observable<any> {
-    return this.afAuth.authState
+    const auth = getAuth(this.app);
+    
+    return new Observable((observer) => {
+      auth.onAuthStateChanged((user) => {
+        observer.next(user);
+      });
+    });
   }
 }
