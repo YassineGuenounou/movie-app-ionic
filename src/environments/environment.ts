@@ -16,7 +16,7 @@ export const environment = {
   },
   tmdbConfig: {
     apiKey: "d9340b096852df2a80c7afea38206509",
-    apiUrl: "https://api.themoviedb.org/3/movie/popular",
+    apiUrl: "https://api.themoviedb.org/3/movie",
   }
 };
 

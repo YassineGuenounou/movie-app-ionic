@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Favorite } from 'src/app/services/movie/favorites';
 import { MovieService } from 'src/app/services/movie/movie.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { MovieService } from 'src/app/services/movie/movie.service';
 })
 export class FavoritesComponent implements OnInit {
 
-  favoriteMovies: any[] = []
+  favoriteMovies!: Favorite[] 
   currentUserId!: string
 
   constructor(
@@ -29,24 +30,24 @@ export class FavoritesComponent implements OnInit {
 
   loadFavorites() {
     this.movieService.getFavoriteMovies(this.currentUserId).subscribe(
-      (movies) => {
-        this.favoriteMovies = movies
+      (response: Favorite[]) => {
+        this.favoriteMovies = response
       },
       (error) => {
-        console.error("Error fetching favorite movies", error)
+        console.error("Error fetching favorites", error)
       },
     )
+    
   }
 
   removeFromFavorites(movieId: number) {
     this.movieService
       .removeFromFavorites(this.currentUserId, movieId)
-      .then(() => {
-        this.favoriteMovies = this.favoriteMovies.filter((movie) => movie.id !== movieId)
+      .subscribe((res) => {
+        this.favoriteMovies = this.favoriteMovies.filter((movie) => movie.id !== movieId.toString())
+        window.location.reload()
       })
-      .catch((error) => {
-        console.error("Error removing from favorites", error)
-      })
+
   }
 
 }

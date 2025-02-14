@@ -37,11 +37,11 @@ export class MovieListComponent implements OnInit {
   }
 
   addToFavorites(movieId: number) {
-    if (this.currentUserId) {
+   
       this.movieService
-        .addToFavorites(this.currentUserId, movieId)
+        .addToFavorites(movieId)
         .then(() => console.log("Added to favorites"))
         .catch((error) => console.error("Error adding to favorites", error))
-    }
+    
   }
 }
