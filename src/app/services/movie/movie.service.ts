@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-// import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { forkJoin, from, map, Observable, switchMap, throwError } from 'rxjs';
+import { getAuth } from 'firebase/auth';
+import { forkJoin, map, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Favorite } from './Favorites';
-// import { Favorite } from './favorites';
+import { Favorite } from './favorites';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,7 @@ export class MovieService {
   private readonly apiUrl = environment.tmdbConfig.apiUrl
   private readonly databaseURL = environment.firebaseConfig.databaseURL
   app = initializeApp(environment.firebaseConfig);
-  title='';
+  title = '';
 
   constructor(
     private readonly http: HttpClient,
@@ -25,14 +23,14 @@ export class MovieService {
 
   getPopularMovies(): Observable<any> {
     const auth = getAuth(this.app);
-    this.http.get(`${this.apiUrl}/popular?api_key=${this.apiKey}`).subscribe((response) => {console.log(response)});
+    this.http.get(`${this.apiUrl}/popular?api_key=${this.apiKey}`).subscribe((response) => { console.log(response) });
     return this.http.get(`${this.apiUrl}/popular?api_key=${this.apiKey}`)
   }
 
   getMovieDetails(movieId: number): Observable<any> {
-   let res= this.http.get(`${this.apiUrl}/${movieId}?api_key=${this.apiKey}`);
+    let res = this.http.get(`${this.apiUrl}/${movieId}?api_key=${this.apiKey}`);
     return res;
-    }
+  }
 
   addToFavorites(movieId: number): Promise<void> {
     const auth = getAuth(this.app);
@@ -42,9 +40,9 @@ export class MovieService {
           console.log('Movie:', movie.title);
           this.http.post(`${environment.firebaseConfig.databaseURL}/favorites.json`, {
             movieId,
-            title:movie.title,
-            release_date:movie.release_date,
-            poster_path:movie.poster_path,
+            title: movie.title,
+            release_date: movie.release_date,
+            poster_path: movie.poster_path,
             userId: auth.currentUser?.uid
           }).subscribe({
             next: (response) => {
@@ -52,16 +50,17 @@ export class MovieService {
               resolve(void 0);
             },
             error: (err) => reject(err)
-          });        },
+          });
+        },
         error: (err) => reject(err)
       });
-   
+
     });
   }
 
   removeFromFavorites(userId: string, movieId: number): Observable<any> {
     const auth = getAuth(this.app).currentUser?.uid;
-  
+
     return this.getFavorites(auth!).pipe(
       switchMap((favorites) => {
         const favoriteKey = favorites.find((favorite) => favorite.movieId === movieId && auth === favorite.userId);
@@ -85,10 +84,10 @@ export class MovieService {
         const fav: Favorite[] = [];
         if (response) {
           for (const key in response) {
-            if (response[key].userId === userId) {              
+            if (response[key].userId === userId) {
               fav.push({ ...response[key], id: key });
             }
-          }          
+          }
           return fav;
         } else {
           return [];
@@ -100,8 +99,8 @@ export class MovieService {
 
   getFavoriteMovies(userId: string): Observable<Favorite[]> {
     return this.getFavorites(userId).pipe(
-      switchMap((favorites) => {        
-        const movieObservables = favorites.map((favorite) => 
+      switchMap((favorites) => {
+        const movieObservables = favorites.map((favorite) =>
           this.getMovieDetails(favorite.movieId).pipe(
             map((movie) => ({
               ...favorite,
@@ -118,7 +117,7 @@ export class MovieService {
   addMovie(movie: any): Promise<void> {
     // Ajoute un nouveau film à la base de données Firebase
     this.http.post(`${environment.firebaseConfig.databaseURL}/movies.json`, {
-      movie    
+      movie
     }).subscribe((response) => {
       console.log(response);
     });
@@ -162,7 +161,7 @@ export class MovieService {
   }
 
   toggleUserStatus(userId: string, isActive: boolean): Promise<void> {
-    return new Promise((resolve, reject) => {});
+    return new Promise((resolve, reject) => { });
 
     //return this.db.object(`users/${userId}`).update({ isActive })
   }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -19,6 +18,13 @@ export class AuthService {
   constructor(
      private readonly http: HttpClient
   ) { }
+
+  getUserDetails(userId: string): Observable<any> {
+    return this.http.get<any>(`${environment.firebaseConfig.databaseURL}/users/${userId}`).pipe(
+      map((user) => ({ id: userId, ...user }))
+    );
+  }
+
 
   async register(
     email: string,
@@ -39,6 +45,8 @@ export class AuthService {
       surname,
       age,
       photoUrl,
+      isActive: true,
+      isAdmin: false,
     }).subscribe((response) => {
       console.log(response);
     });
@@ -46,6 +54,30 @@ export class AuthService {
 
     return user;
   }
+
+  // register(
+  //   email: string,
+  //   password: string,
+  //   name: string,
+  //   surname: string,
+  //   age: number,
+  //   photoUrl: string,
+  // ): Promise<void> {
+  //   return this.afAuth.createUserWithEmailAndPassword(email, password).then((credential) => {
+  //     if (credential.user) {
+  //       return this.db.object(`users/${credential.user.uid}`).set({
+  //         name,
+  //         surname,
+  //         age,
+  //         photoUrl,
+  //         email,
+  //         isActive: true,
+  //         isAdmin: false,
+  //       })
+  //     }
+  //     throw new Error("User creation failed")
+  //   })
+  // }
   
 
   login(email: string, password: string): Promise<any> {
