@@ -9,4 +9,4 @@ import { RegisterComponent } from "./register.component";
     imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild([{ path: "", component: RegisterComponent }])],
     declarations: [RegisterComponent],
 })
-export class RegistergModule { }
+export class RegisterModule { }

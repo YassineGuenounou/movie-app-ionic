@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent {
   age!: number
   photoUrl!: string
 
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
   async takePicture() {
     const image = await Camera.getPhoto({
@@ -32,6 +33,8 @@ export class RegisterComponent {
   async register() {
     try {
       await this.authService.register(this.email, this.password, this.name, this.surname, this.age, this.photoUrl)
+      // Redirection vers la page de login après une inscription réussie
+      this.router.navigate(['/login']); // Utilisez le chemin de votre route de login
       // Navigate to home page or show success message
     } catch (error) {
       console.error("Registration failed", error)

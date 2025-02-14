@@ -2,24 +2,21 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { AdminGuard } from './guards/admin/admin.guard';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
-  {
-    path: "",
-    redirectTo: "login",
-    pathMatch: "full",
-  },
+
   {
     path: "login",
     loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginModule),
   },
   {
     path: "register",
-    loadChildren: () => import("./pages/register/register.module").then((m) => m.RegistergModule),
+    loadChildren: () => import("./pages/register/register.module").then((m) => m.RegisterModule),
   },
   {
     path: "movie-list",
-    loadChildren: () => import("./pages/movie-list/movie-list.module").then((m) => m.MovieListgModule),
+    loadChildren: () => import("./pages/movie-list/movie-list.module").then((m) => m.MovieListModule),
     canActivate: [AuthGuard],
   },
   {
@@ -34,8 +31,21 @@ const routes: Routes = [
   },
   {
     path: "matching",
-    loadChildren: () => import("./pages/admin/admin.module").then((m) => m.AdminModule),
+    loadChildren: () => import("./pages/matching/matching.module").then((m) => m.MatchingModule),
     canActivate: [AuthGuard],
+  },
+  // {
+  //   path: 'tabs',
+  //   component: TabsComponent,
+  // },
+  // {
+  //   path: "login",
+  //   loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginModule),
+  // },
+  {
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
   },
 ];
 

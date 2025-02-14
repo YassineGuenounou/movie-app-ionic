@@ -9,4 +9,4 @@ import { MovieListComponent } from "./movie-list.component";
     imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild([{ path: "", component: MovieListComponent }])],
     declarations: [MovieListComponent],
 })
-export class MovieListgModule { }
+export class MovieListModule { }

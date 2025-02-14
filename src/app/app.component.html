@@ -1,3 +1,47 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+  <!-- <app-tabs></app-tabs> -->
+  <!-- Navbar en bas -->
+  <!-- <ion-footer *ngIf="showNavbar">
+    <ion-toolbar>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="home" [routerLink]="'/movie-list'">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Accueil</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="profile" [routerLink]="'/favorites'">
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-label>Profil</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="settings" [routerLink]="'/matching'">
+          <ion-icon name="settings-outline"></ion-icon>
+          <ion-label>Paramètres</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-toolbar>
+  </ion-footer> -->
+
+  
+  <ion-tabs *ngIf="showNavbar">
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="movie-list">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>movie-list</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="favorites">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>favorites</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="matching">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>matching</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+    <ion-router-outlet></ion-router-outlet>
+
+  </ion-tabs>
 </ion-app>
