@@ -47,7 +47,6 @@ export class FavoritesComponent implements OnInit {
         this.favoriteMovies = this.favoriteMovies.filter((movie) => movie.id !== movieId.toString())
         window.location.reload()
       })
-
   }
 
 }

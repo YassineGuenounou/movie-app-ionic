@@ -8,7 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
   standalone: false,
 })
 export class AppComponent {
-  showNavbar = true;
+  showNavbar!: boolean;
 
   constructor(private readonly router: Router) {
     this.router.events.subscribe((event) => {

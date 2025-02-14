@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
-// import { NavbarService } from 'src/app/services/nav-bar/navbar.service';
 
 @Component({
   selector: 'app-login',
@@ -18,18 +17,8 @@ export class LoginComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    // private readonly navbarService: NavbarService,
     private readonly toastController: ToastController // Injectez ToastController
   ) { }
-
-
-  ngOnInit() {
-    // this.navbarService.hideNavbar(); // Masque la barre de navigation
-  }
-
-  ionViewWillLeave() {
-    // this.navbarService.showNavbar(); // Affiche la barre de navigation en quittant la page
-  }
 
   async login() {
     if (!this.email || !this.password) {

@@ -2,10 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { AdminGuard } from './guards/admin/admin.guard';
-import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
-
   {
     path: "login",
     loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginModule),
@@ -34,14 +32,6 @@ const routes: Routes = [
     loadChildren: () => import("./pages/matching/matching.module").then((m) => m.MatchingModule),
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'tabs',
-  //   component: TabsComponent,
-  // },
-  // {
-  //   path: "login",
-  //   loadChildren: () => import("./pages/login/login.module").then((m) => m.LoginModule),
-  // },
   {
     path: "",
     redirectTo: "login",

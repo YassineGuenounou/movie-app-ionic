@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { forkJoin, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Favorite } from './favorites';
+// import { Favorite } from './favorites';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class MovieService {
     });
   }
 
-  removeFromFavorites(userId: string, movieId: number): Observable<void> {
+  removeFromFavorites(userId: string, movieId: number): Observable<any> {
     const auth = getAuth(this.app).currentUser?.uid;
   
     return this.getFavorites(auth!).pipe(
@@ -66,7 +67,7 @@ export class MovieService {
         const favoriteKey = favorites.find((favorite) => favorite.movieId === movieId && auth === favorite.userId);
         if (favoriteKey) {
           // Delete the favorite
-          return this.http.delete<void>(`${this.databaseURL}/favorites/${favoriteKey.id}.json`).pipe(
+          return this.http.delete<any>(`${this.databaseURL}/favorites/${favoriteKey.id}.json`).pipe(
             map(() => {
               console.log('Removed from favorites');
             })
