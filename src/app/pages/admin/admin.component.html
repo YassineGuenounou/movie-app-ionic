@@ -1,22 +1,40 @@
-<ion-content>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Admin Panel</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
   <ion-list>
+    <ion-list-header>
+      <ion-label>Users</ion-label>
+    </ion-list-header>
     <ion-item *ngFor="let user of users">
       <ion-label>
         <h2>{{ user.name }} {{ user.surname }}</h2>
         <p>Age: {{ user.age }}</p>
       </ion-label>
       <ion-toggle [(ngModel)]="user.isActive" (ionChange)="toggleUserStatus(user.key, user.isActive)"></ion-toggle>
+      <ion-button fill="clear" (click)="viewUserDetails(user.key)">View Details</ion-button>
     </ion-item>
   </ion-list>
-  <form (ngSubmit)="addMovie()">
-    <ion-item>
-      <ion-label position="floating">Movie Title</ion-label>
-      <ion-input type="text" [(ngModel)]="newMovie.title" name="title" required></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Release Date</ion-label>
-      <ion-input type="date" [(ngModel)]="newMovie.release_date" name="release_date" required></ion-input>
-    </ion-item>
-    <ion-button type="submit" expand="block">Add Movie</ion-button>
-  </form>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Add New Movie</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form (ngSubmit)="addMovie()">
+        <ion-item>
+          <ion-label position="floating">Movie Title</ion-label>
+          <ion-input type="text" [(ngModel)]="newMovie.title" name="title" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Release Date</ion-label>
+          <ion-input type="date" [(ngModel)]="newMovie.release_date" name="release_date" required></ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="block" class="ion-margin-top">Add Movie</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

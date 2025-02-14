@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MovieService } from 'src/app/services/movie/movie.service';
 
 @Component({
@@ -8,11 +9,13 @@ import { MovieService } from 'src/app/services/movie/movie.service';
   standalone: false
 })
 export class AdminComponent implements OnInit {
-
-  users: any[] = []
+  users!: any[]
   newMovie: any = {}
 
-  constructor(private readonly movieService: MovieService) { }
+  constructor(
+    private readonly movieService: MovieService,
+    private readonly router: Router,
+  ) { }
 
   ngOnInit() {
     this.loadUsers()
@@ -46,4 +49,8 @@ export class AdminComponent implements OnInit {
       .catch((error) => console.error("Error adding movie", error))
   }
 
+  viewUserDetails(userId: string) {
+    this.router.navigate(["/details", userId])
+  }
 }
+
