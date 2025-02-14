@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Favorite } from 'src/app/services/movie/Favorites';
+import { Favorite } from 'src/app/services/movie/favorites';
 import { MovieService } from 'src/app/services/movie/movie.service';
 
 @Component({
