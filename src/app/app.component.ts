@@ -14,7 +14,6 @@ export class AppComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showNavbar = !['/login', '/register'].includes(this.router.url);
-        console.log("URL actuelle:", this.router.url, "Affichage Navbar:", this.showNavbar);
       }
     });
   }

@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { forkJoin, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Favorite } from './favorites';
+import { Favorite } from './Favorites';
 // import { Favorite } from './favorites';
 
 @Injectable({
@@ -97,11 +97,6 @@ export class MovieService {
     );
   }
 
-  //   return this.db
-  //     .list(`favorites/${userId}`)
-  //     .snapshotChanges()
-  //     .pipe(map((changes) => changes.map((c) => Number.parseInt(c.key!, 10))))
-  
 
   getFavoriteMovies(userId: string): Observable<Favorite[]> {
     return this.getFavorites(userId).pipe(
@@ -154,15 +149,16 @@ export class MovieService {
   }
 
   getUsers(): Observable<any[]> {
-    return new Observable((observer) => {
-      observer.next([]);
-      observer.complete();
-    }
+    return this.http.get(`${this.databaseURL}/users.json`).pipe(
+      map((response: { [key: string]: any }) => {
+        const users: any[] = [];
+        for (const key in response) {
+          users.push({ key, ...response[key] });          
+        }        
+        return users;
+      
+      })
     );
-    // return this.db
-    //   .list("users")
-    //   .snapshotChanges()
-    //   .pipe(map((changes) => changes.map((c) => ({ key: c.payload.key, ...(c.payload.val() as {}) }))))
   }
 
   toggleUserStatus(userId: string, isActive: boolean): Promise<void> {
@@ -181,16 +177,25 @@ export class MovieService {
               .map((user) =>
                 this.getFavorites(user.key).pipe(
                   map((otherFavorites) => {
-                    const matchingFavorites = userFavorites.filter((id) => otherFavorites.includes(id))
+                                    
+                    // const matchingFavorites = userFavorites.filter((fav) => otherFavorites.map(otherFav => otherFav.id).includes(fav.id));
+                     const matchingFavorites = userFavorites.filter((fav) => otherFavorites.map(otherFav => otherFav.movieId).includes(fav.movieId));
+                    
+                    console.log('matchingFavorites '+matchingFavorites);
+                    
                     const matchPercentage = (matchingFavorites.length / userFavorites.length) * 100
-                    return { userId: user.key, matchPercentage }
+                    console.log( 'percentage :'+ user.email, matchPercentage );
+                                        
+                    return { userId: user.email, matchPercentage }
                   })
                 )
               )
 
             return forkJoin(observables) // Utiliser forkJoin pour attendre la complétion de tous les observables
           }),
-          map((matches) => matches.filter((match) => match.matchPercentage >= 75))
+          map((matches) =>{
+            console.log(matches);
+         return  matches.filter((match) => match.matchPercentage >= 75);})
         )
       )
     )

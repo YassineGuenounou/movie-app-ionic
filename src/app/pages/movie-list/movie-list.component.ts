@@ -9,7 +9,7 @@ import { MovieService } from 'src/app/services/movie/movie.service';
   standalone: false
 })
 export class MovieListComponent implements OnInit {
-
+  isToastOpen = false;
   movies: any[] = []
   currentUserId!: string
 
@@ -40,8 +40,14 @@ export class MovieListComponent implements OnInit {
    
       this.movieService
         .addToFavorites(movieId)
-        .then(() => console.log("Added to favorites"))
+        .then(() => {
+          console.log("Added to favorites");
+          this.setOpen(true);
+        })
         .catch((error) => console.error("Error adding to favorites", error))
     
+  }
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
   }
 }

@@ -10,7 +10,7 @@ import { MovieService } from 'src/app/services/movie/movie.service';
 })
 export class MatchingComponent implements OnInit {
 
-  matchingUsers: any[] = []
+  matchingUsers!: any[] 
 
   constructor(
     private readonly movieService: MovieService,
@@ -19,7 +19,7 @@ export class MatchingComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
+      if (user) {        
         this.loadMatchingUsers(user.uid)
       }
     })
@@ -27,7 +27,7 @@ export class MatchingComponent implements OnInit {
 
   loadMatchingUsers(userId: string) {
     this.movieService.getMatchingUsers(userId).subscribe(
-      (matches) => {
+      (matches) => {        
         this.matchingUsers = matches
       },
       (error) => {
